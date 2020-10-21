@@ -11,7 +11,8 @@ export class Editor extends Component {
             price: { label: "Price", name: "price", validation: { type: "number", required: true, min: 5} }
         };
         this.state = {
-            errors: {}
+            errors: {},
+            wrapContent: false
         };
     }
 
@@ -39,6 +40,17 @@ export class Editor extends Component {
         return valid;
     }
 
+    toggleWrap = (event) => {
+        this.setState({wrapContent: event.target.checked});
+    }
+
+    wrapContent(content) {
+        return this.state.wrapContent ? <div className="bg-secondary p-2">
+            <div className="bg-light">{ content }</div>
+        </div>
+        : content;
+    }
+
     handleAdd = () => {
         if (this.validateFormElements()) {
             let data = {};
@@ -53,7 +65,15 @@ export class Editor extends Component {
     }
 
     render() {
-        return <React.Fragment>
+        return this.wrapContent(
+        <React.Fragment>
+            <div className="form-group text-center p-2">
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" checked={ this.state.wrapContent }
+                        onChange={ this.toggleWrap } />
+                    <label className="form-check-label">Wrap Content</label>
+                </div>
+            </div>
             {
                 Object.values(this.formElements).map(elem => 
                     <div className="form-group p-2" key={ elem.name }>
@@ -72,6 +92,6 @@ export class Editor extends Component {
                     Add
                 </button>
             </div>
-        </React.Fragment>
+        </React.Fragment>)
     }
 }
