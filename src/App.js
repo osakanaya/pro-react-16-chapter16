@@ -1,21 +1,35 @@
 import React, { Component } from "react";
 import { ForwardFormField } from "./FormField";
+import { PortalWrapper } from "./PortalWrapper";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.fieldRef = React.createRef();
+    this.portalFieldRef = React.createRef();
   }
 
-  handleClick = () => {
+  focusLocal = () => {
     this.fieldRef.current.focus();
   }
 
+  focusPortal = () => {
+    this.portalFieldRef.current.focus();
+  }
+
   render() {
-    return <div className="m-2">
+    return <div>
+      <PortalWrapper>
+        <ForwardFormField label="Name" ref={ this.portalFieldRef } />
+      </PortalWrapper>
       <ForwardFormField label="Name" ref={ this.fieldRef } />
-      <div className="btn btn-primary" onClick={ this.handleClick }>
-        Focus
+      <div className="text-center m-2">
+        <div className="btn btn-primary m-1" onClick={ this.focusLocal }>
+          Focus Local
+        </div>
+        <div className="btn btn-primary m-1" onClick={ this.focusPortal }>
+          Focus Portal
+        </div>
       </div>
     </div>
   }
